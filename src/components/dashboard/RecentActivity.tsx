@@ -6,34 +6,44 @@ import { Badge } from '@/components/ui/badge';
 
 const activities = [
   {
-    user: 'Alice Johnson',
-    action: 'placed a new order',
+    user: 'Pizza Palace',
+    action: 'published new offer',
+    offer: '20% off pizzas',
     time: '2 minutes ago',
     status: 'success',
+    type: 'store'
   },
   {
-    user: 'Bob Smith',
-    action: 'updated profile',
+    user: 'John Smith',
+    action: 'claimed offer',
+    offer: 'Free coffee at Cafe Central',
     time: '5 minutes ago',
     status: 'info',
+    type: 'user'
   },
   {
-    user: 'Carol Williams',
-    action: 'cancelled order #1234',
+    user: 'Fashion Hub',
+    action: 'registered as new store',
+    offer: '',
     time: '10 minutes ago',
-    status: 'warning',
-  },
-  {
-    user: 'David Brown',
-    action: 'left a review',
-    time: '15 minutes ago',
     status: 'success',
+    type: 'store'
   },
   {
-    user: 'Eva Davis',
-    action: 'requested refund',
+    user: 'Maria Garcia',
+    action: 'claimed offer',
+    offer: '15% off electronics',
+    time: '15 minutes ago',
+    status: 'info',
+    type: 'user'
+  },
+  {
+    user: 'Book Store',
+    action: 'offer expired',
+    offer: 'Buy 2 get 1 free',
     time: '20 minutes ago',
-    status: 'destructive',
+    status: 'warning',
+    type: 'store'
   },
 ];
 
@@ -53,11 +63,16 @@ const RecentActivity = () => {
               </Avatar>
               <div className="flex-1 space-y-1">
                 <p className="text-sm font-medium leading-none">{activity.user}</p>
-                <p className="text-xs text-muted-foreground">{activity.action}</p>
+                <p className="text-xs text-muted-foreground">
+                  {activity.action} {activity.offer && `- ${activity.offer}`}
+                </p>
               </div>
               <div className="text-right">
-                <Badge variant={activity.status as any} className="text-xs">
-                  {activity.status}
+                <Badge 
+                  variant={activity.status as any} 
+                  className="text-xs"
+                >
+                  {activity.type}
                 </Badge>
                 <p className="text-xs text-muted-foreground mt-1">{activity.time}</p>
               </div>

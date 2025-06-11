@@ -1,36 +1,36 @@
 
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp, TrendingDown, Users, DollarSign, ShoppingCart, BarChart3 } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, Store, Gift, Target } from 'lucide-react';
 
 const stats = [
   {
-    title: 'Total Revenue',
-    value: '$45,231.89',
-    change: '+20.1%',
+    title: 'Total Stores',
+    value: '1,247',
+    change: '+12.3%',
     changeType: 'positive',
-    icon: DollarSign,
+    icon: Store,
+  },
+  {
+    title: 'Active Offers',
+    value: '3,456',
+    change: '+25.1%',
+    changeType: 'positive',
+    icon: Gift,
   },
   {
     title: 'Total Users',
-    value: '2,350',
-    change: '+180.1%',
+    value: '12,890',
+    change: '+8.7%',
     changeType: 'positive',
     icon: Users,
   },
   {
-    title: 'Total Orders',
-    value: '1,234',
-    change: '+19%',
-    changeType: 'positive',
-    icon: ShoppingCart,
-  },
-  {
-    title: 'Conversion Rate',
-    value: '12.5%',
-    change: '-4.3%',
+    title: 'Claims Today',
+    value: '892',
+    change: '-2.4%',
     changeType: 'negative',
-    icon: BarChart3,
+    icon: Target,
   },
 ];
 

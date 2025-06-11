@@ -2,13 +2,13 @@
 import React from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Plus, FileText, Users, Package } from 'lucide-react';
+import { Plus, Store, Gift, Users, FileText } from 'lucide-react';
 
 const actions = [
-  { title: 'Add New User', icon: Users, color: 'bg-blue-500' },
-  { title: 'Create Product', icon: Package, color: 'bg-green-500' },
-  { title: 'Generate Report', icon: FileText, color: 'bg-purple-500' },
-  { title: 'New Order', icon: Plus, color: 'bg-orange-500' },
+  { title: 'Add New Store', icon: Store, color: 'bg-blue-500' },
+  { title: 'Create Offer', icon: Gift, color: 'bg-green-500' },
+  { title: 'Manage Users', icon: Users, color: 'bg-purple-500' },
+  { title: 'Generate Report', icon: FileText, color: 'bg-orange-500' },
 ];
 
 const QuickActions = () => {
