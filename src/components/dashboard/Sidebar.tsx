@@ -19,23 +19,32 @@ import {
 interface SidebarProps {
   isOpen: boolean;
   onClose: () => void;
+  currentPage: string;
+  onPageChange: (page: string) => void;
 }
 
 const navigation = [
-  { name: 'Dashboard', icon: Home, href: '#', current: true },
-  { name: 'Stores', icon: Store, href: '#', current: false },
-  { name: 'Offers', icon: Gift, href: '#', current: false },
-  { name: 'Users', icon: Users, href: '#', current: false },
-  { name: 'Claims', icon: Target, href: '#', current: false },
-  { name: 'Analytics', icon: BarChart3, href: '#', current: false },
-  { name: 'Approvals', icon: UserCheck, href: '#', current: false },
-  { name: 'Messages', icon: MessageSquare, href: '#', current: false },
-  { name: 'Calendar', icon: Calendar, href: '#', current: false },
-  { name: 'Reports', icon: FileText, href: '#', current: false },
-  { name: 'Settings', icon: Settings, href: '#', current: false },
+  { name: 'Dashboard', icon: Home, href: 'dashboard', current: false },
+  { name: 'Stores', icon: Store, href: 'stores', current: false },
+  { name: 'Offers', icon: Gift, href: 'offers', current: false },
+  { name: 'Users', icon: Users, href: 'users', current: false },
+  { name: 'Claims', icon: Target, href: 'claims', current: false },
+  { name: 'Analytics', icon: BarChart3, href: 'analytics', current: false },
+  { name: 'Approvals', icon: UserCheck, href: 'approvals', current: false },
+  { name: 'Messages', icon: MessageSquare, href: 'messages', current: false },
+  { name: 'Calendar', icon: Calendar, href: 'calendar', current: false },
+  { name: 'Reports', icon: FileText, href: 'reports', current: false },
+  { name: 'Settings', icon: Settings, href: 'settings', current: false },
 ];
 
-const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
+const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, currentPage, onPageChange }) => {
+  const handleNavigation = (href: string) => {
+    onPageChange(href);
+    if (window.innerWidth < 1024) {
+      onClose();
+    }
+  };
+
   return (
     <>
       {/* Mobile backdrop */}
@@ -65,18 +74,18 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose }) => {
           <ul className="space-y-2">
             {navigation.map((item) => (
               <li key={item.name}>
-                <a
-                  href={item.href}
+                <button
+                  onClick={() => handleNavigation(item.href)}
                   className={cn(
-                    "flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
-                    item.current
+                    "w-full flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                    currentPage === item.href
                       ? "bg-primary text-primary-foreground"
                       : "text-muted-foreground hover:text-foreground hover:bg-accent"
                   )}
                 >
                   <item.icon className="mr-3 h-5 w-5" />
                   {item.name}
-                </a>
+                </button>
               </li>
             ))}
           </ul>
