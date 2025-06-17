@@ -15,6 +15,7 @@ import {
   X,
   UserCheck
 } from 'lucide-react';
+import PlatformStats from './PlatformStats';
 
 interface SidebarProps {
   isOpen: boolean;
@@ -92,15 +93,7 @@ const Sidebar: React.FC<SidebarProps> = ({ isOpen, onClose, currentPage, onPageC
         </nav>
         
         <div className="absolute bottom-6 left-3 right-3">
-          <div className="bg-accent rounded-lg p-4">
-            <h3 className="text-sm font-medium text-foreground">Platform Stats</h3>
-            <p className="text-xs text-muted-foreground mt-1">
-              Monitor your offers platform performance and growth metrics.
-            </p>
-            <button className="mt-3 w-full bg-primary text-primary-foreground text-xs py-2 px-3 rounded-md hover:bg-primary/90 transition-colors">
-              View Analytics
-            </button>
-          </div>
+          <PlatformStats />
         </div>
       </div>
     </>
