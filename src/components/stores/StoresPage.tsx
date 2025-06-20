@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Eye, Edit, CheckCircle, XCircle, Search, Filter, Plus, MoreHorizontal } from 'lucide-react';
+import StoreDetailsModal from './StoreDetailsModal';
 
 const stores = [
   {
@@ -91,8 +92,11 @@ const stores = [
 const StoresPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
+  const [selectedStore, setSelectedStore] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [storesList, setStoresList] = useState(stores);
 
-  const filteredStores = stores.filter(store => {
+  const filteredStores = storesList.filter(store => {
     const matchesSearch = store.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          store.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
                          store.category.toLowerCase().includes(searchTerm.toLowerCase());
@@ -113,6 +117,41 @@ const StoresPage = () => {
     }
   };
 
+  const handleViewStore = (store) => {
+    setSelectedStore(store);
+    setIsModalOpen(true);
+  };
+
+  const handleApproveStore = (storeId: number) => {
+    setStoresList(prev => prev.map(store => 
+      store.id === storeId ? { ...store, status: 'approved' } : store
+    ));
+    console.log(`Store ${storeId} approved`);
+    setIsModalOpen(false);
+  };
+
+  const handleRejectStore = (storeId: number) => {
+    setStoresList(prev => prev.map(store => 
+      store.id === storeId ? { ...store, status: 'suspended' } : store
+    ));
+    console.log(`Store ${storeId} rejected`);
+    setIsModalOpen(false);
+  };
+
+  const handleQuickApprove = (storeId: number) => {
+    setStoresList(prev => prev.map(store => 
+      store.id === storeId ? { ...store, status: 'approved' } : store
+    ));
+    console.log(`Store ${storeId} quick approved`);
+  };
+
+  const handleQuickReject = (storeId: number) => {
+    setStoresList(prev => prev.map(store => 
+      store.id === storeId ? { ...store, status: 'suspended' } : store
+    ));
+    console.log(`Store ${storeId} quick rejected`);
+  };
+
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="mb-8">
@@ -127,7 +166,7 @@ const StoresPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Total Stores</p>
-                <p className="text-3xl font-bold">{stores.length}</p>
+                <p className="text-3xl font-bold">{storesList.length}</p>
               </div>
               <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
                 <div className="h-6 w-6 bg-blue-500 rounded"></div>
@@ -141,7 +180,7 @@ const StoresPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Approved</p>
-                <p className="text-3xl font-bold text-green-600">{stores.filter(s => s.status === 'approved').length}</p>
+                <p className="text-3xl font-bold text-green-600">{storesList.filter(s => s.status === 'approved').length}</p>
               </div>
               <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
                 <CheckCircle className="h-6 w-6 text-green-600" />
@@ -155,7 +194,7 @@ const StoresPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Pending</p>
-                <p className="text-3xl font-bold text-yellow-600">{stores.filter(s => s.status === 'pending').length}</p>
+                <p className="text-3xl font-bold text-yellow-600">{storesList.filter(s => s.status === 'pending').length}</p>
               </div>
               <div className="h-12 w-12 bg-yellow-100 rounded-lg flex items-center justify-center">
                 <div className="h-6 w-6 bg-yellow-500 rounded"></div>
@@ -169,7 +208,7 @@ const StoresPage = () => {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm font-medium text-muted-foreground">Suspended</p>
-                <p className="text-3xl font-bold text-red-600">{stores.filter(s => s.status === 'suspended').length}</p>
+                <p className="text-3xl font-bold text-red-600">{storesList.filter(s => s.status === 'suspended').length}</p>
               </div>
               <div className="h-12 w-12 bg-red-100 rounded-lg flex items-center justify-center">
                 <XCircle className="h-6 w-6 text-red-600" />
@@ -264,7 +303,11 @@ const StoresPage = () => {
                   <TableCell>{new Date(store.joinDate).toLocaleDateString()}</TableCell>
                   <TableCell>
                     <div className="flex space-x-1">
-                      <Button variant="ghost" size="sm">
+                      <Button 
+                        variant="ghost" 
+                        size="sm"
+                        onClick={() => handleViewStore(store)}
+                      >
                         <Eye className="h-4 w-4" />
                       </Button>
                       <Button variant="ghost" size="sm">
@@ -272,10 +315,20 @@ const StoresPage = () => {
                       </Button>
                       {store.status === 'pending' && (
                         <>
-                          <Button variant="ghost" size="sm" className="text-green-600">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="text-green-600"
+                            onClick={() => handleQuickApprove(store.id)}
+                          >
                             <CheckCircle className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="sm" className="text-red-600">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="text-red-600"
+                            onClick={() => handleQuickReject(store.id)}
+                          >
                             <XCircle className="h-4 w-4" />
                           </Button>
                         </>
@@ -291,6 +344,14 @@ const StoresPage = () => {
           </Table>
         </CardContent>
       </Card>
+
+      <StoreDetailsModal
+        store={selectedStore}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onApprove={handleApproveStore}
+        onReject={handleRejectStore}
+      />
     </div>
   );
 };
